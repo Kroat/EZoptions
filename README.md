@@ -13,7 +13,6 @@ bsm_robinhood_equties( ticker, strike price, days to maturity, diagnostics (opti
 bsm_robinhood_equtities('NFLX', 250, 60, False)
 ```
 
-For feature requests, please email krolo@wisc.edu
 
 ## To use:
 1.) Clone the master file (EZoptions.py) to your project directory
@@ -34,3 +33,19 @@ bsm_robinhood_equtities('NFLX', 250, 60, False)
 nflx_value = bsm_robinhood_equtities('NFLX', 250, 60, False)
 >> 37.81
 ```
+
+## Planned Features
+1.) Custom Volatility Inputs
+
+
+2.) Models for put options
+
+
+3.) Additional languages/markets
+
+
+4.) GUI/Front-facing web-app
+
+
+
+## For feature requests, please email krolo@wisc.edu
