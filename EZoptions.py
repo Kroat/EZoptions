@@ -78,4 +78,4 @@ def bsm_robinhood_equtities(
     except:
         print 'Sorry, there was an error'
         return 0
-bsm_robinhood_equtities('NFLX', 250,60,True)
+
