@@ -9,8 +9,13 @@ Author: Matija Krolo
 ## Current Features:
 1.) Black-Scholes Model on Equities Trading on Robinhood (For Call Options) (<a>https://robinhood.com/</a>)
 ```python
-bsm_robinhood_equties( ticker, strike price, days to maturity, diagnostics (optional: True/False) )
+bsm_robinhood_equties( ticker, strike price, days to maturity, diagnostics (optional: True/False), custom volatility input (optional )
+
+# To find the call value on Netflix with an excercise price of $250 and 60 days to maturity (using market volatility and risk-free rates)
 bsm_robinhood_equtities('NFLX', 250, 60, False)
+
+# To find the call value on Netflix and assigning it to the variable 'nflx_value' with an excercise price of $250 and 60 days to maturity (using a custom implied volatlity of 25%)
+nflx_value = bsm_robinhood_equtities('NFLX', 250, 60, False, 25)
 ```
 
 
