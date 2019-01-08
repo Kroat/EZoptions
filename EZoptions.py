@@ -6,12 +6,12 @@
 # 1.) Import the library 
 #		from ezoptions.py import *
 # 2.) Call Any Available Library Functions:
-#   	bsm_robinhood_equtities(Ticker, Strike Price, Days Until Maturity, Optional: Function Diagnostics)
+#   	bsm_robinhood_equtities(Ticker, Strike Price, Days Until Maturity, Optional: Function Diagnostics, Optional: Custom Volatility Inputs)
 #		ex:  bsm_robinhood_equtities('NFLX', 250, 60, False)
 #
 # Model Price Can Also Be Assigned To Any Variable For Manipulation
 # 
-# PFE_Fair_Value = bsm_robinhood_equities('PFE', 39, 60, False)
+# PFE_Fair_Value = bsm_robinhood_equities('PFE', 39, 60, False, 20)
 #  
 # Ezoptions requires the Pandas and Scipy libraries
 #
@@ -28,7 +28,8 @@ def bsm_robinhood_equtities(
     ticker, # Equity Ticker (ex. PFE, BRK.A)
     strike_price, # Excerciseable Price on Option
     days_to_maturity, # Time to Option Maturity (in days)
-    diagnostics=False, # Optional Data on what the functinon uses
+    diagnostics = False, # Optional Data on what the function uses
+    optional_volatility = -1	#Custom Volatility Input
     ):
     try:
     	# Gather Model Data
@@ -41,8 +42,11 @@ def bsm_robinhood_equtities(
         total_mkt_implied_volatility = pdr.get_data_fred('VIXCLS'
                 ).tail(1)
         price_level = float(price_level)
-        total_mkt_implied_volatility = \
-            float(total_mkt_implied_volatility['VIXCLS'] / 100)
+        if(optional_volatility != -1):
+        	total_mkt_implied_volatility = (optional_volatility / 100.0)
+        else:
+	        total_mkt_implied_volatility = \
+	            float(total_mkt_implied_volatility['VIXCLS'] / 100)
         # Calculate Option Value based on the BSM (first d1, then d2) and manipulate data for output
         d1 = log(price_level / strike_price) + (risk_free_rate + .5
                 * total_mkt_implied_volatility ** 2) * time_to_maturity \
@@ -66,7 +70,7 @@ def bsm_robinhood_equtities(
             print 'Strike Price: $' + str(strike_price) 
             print 'Risk free rate (FRED API): ' + str(risk_free_rate
                     * 100) + '%'
-            print 'Total Market Volatility ($VIX): ' \
+            print 'Volatility: ' \
                 + str(total_mkt_implied_volatility * 100) + '%'
         print 'Black Scholes Model Call Value on ' + ticker + ': $' + str(option_quote) + '\n\n'
         return option_quote
@@ -74,4 +78,4 @@ def bsm_robinhood_equtities(
     except:
         print 'Sorry, there was an error'
         return 0
- 
+bsm_robinhood_equtities('NFLX', 250,60,True)
