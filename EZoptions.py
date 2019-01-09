@@ -33,6 +33,7 @@ def bsm_robinhood_equtities(
     ):
     try:
     	# Gather Model Data
+    	custom_volatility_input = False
         time_to_maturity = round(days_to_maturity / 365.0, 10) # Annualize Time to Maturity 
         risk_free_rate = pdr.get_data_fred('DGS10').tail(1) / 100 # Fetch Current Risk-Free Rate from https://fred.stlouisfed.org
         price_level = web.DataReader(ticker, 'robinhood').tail(1) # Fetch Latest Trading Data on Desired Equity
@@ -44,6 +45,7 @@ def bsm_robinhood_equtities(
         price_level = float(price_level)
         if(optional_volatility != -1):
         	total_mkt_implied_volatility = (optional_volatility / 100.0)
+        	custom_volatility_input = True
         else:
 	        total_mkt_implied_volatility = \
 	            float(total_mkt_implied_volatility['VIXCLS'] / 100)
@@ -70,6 +72,8 @@ def bsm_robinhood_equtities(
             print 'Strike Price: $' + str(strike_price) 
             print 'Risk free rate (FRED API): ' + str(risk_free_rate
                     * 100) + '%'
+            if custom_volatility_input:
+            	print '** Note: Implied Volatility was Input **'
             print 'Volatility: ' \
                 + str(total_mkt_implied_volatility * 100) + '%'
         print 'Black Scholes Model Call Value on ' + ticker + ': $' + str(option_quote) + '\n\n'
@@ -78,4 +82,3 @@ def bsm_robinhood_equtities(
     except:
         print 'Sorry, there was an error'
         return 0
-
