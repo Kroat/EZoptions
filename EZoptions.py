@@ -16,8 +16,7 @@
 # Ezoptions requires the Pandas and Scipy libraries
 #
 
-# Import Libraries
-import pandas_datareader as pdr
+# Import Libraries 
 import pandas_datareader.data as web
 from scipy import stats
 import datetime as dt
@@ -35,12 +34,12 @@ def bsm_robinhood_equtities(
     	# Gather Model Data
     	custom_volatility_input = False
         time_to_maturity = round(days_to_maturity / 365.0, 10) # Annualize Time to Maturity 
-        risk_free_rate = pdr.get_data_fred('DGS10').tail(1) / 100 # Fetch Current Risk-Free Rate from https://fred.stlouisfed.org
+        risk_free_rate = web.DataReader('DGS10', data_source="fred").tail(1) / 100 # Fetch Current Risk-Free Rate from https://fred.stlouisfed.org
         price_level = web.DataReader(ticker, 'robinhood').tail(1) # Fetch Latest Trading Data on Desired Equity
         load_diagnostics = price_level # Store Raw Data for Diagnostics Purposes
         price_level = price_level['close_price'].tolist()[0] 
         # Fetch Data on Implied Volatility Through the $VIX Index (plan on adding custom volatility inputs down the road)
-        total_mkt_implied_volatility = pdr.get_data_fred('VIXCLS'
+        total_mkt_implied_volatility = web.DataReader('VIXCLS', data_source="fred"
                 ).tail(1)
         price_level = float(price_level)
         if(optional_volatility != -1):
