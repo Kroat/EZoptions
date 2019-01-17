@@ -4,6 +4,7 @@ Python Library for Options Analysis
 
 Author: Matija Krolo
 
+## Please note that Robinhood has depreciated their endpoint API. I will fix this on Jan 17  
 
 
 ## Current Features:
